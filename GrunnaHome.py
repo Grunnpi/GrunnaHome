@@ -240,7 +240,7 @@ FROM \
  LEFT JOIN Meter_Calendar D23 ON D3.Date=D23.Date AND D23.DeviceRowId = 705\
  LEFT JOIN Meter_Calendar D24 ON D3.Date=D24.Date AND D24.DeviceRowId = 706 \
 WHERE \
-D3.DeviceRowId = 590 AND D3.Date > '{}'"
+D3.DeviceRowId = 590 AND D3.Date > '{}' ORDER BY D3.Date ASC"
 
     args=parser.parse_args()
 
