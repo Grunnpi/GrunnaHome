@@ -268,7 +268,7 @@ D3.DeviceRowId = 590 AND D3.Date > '{}'"
 
     print(sql_total.format(dataMaxi))
 
-    con = sqlite3.connect("domoticz.db")
+    con = sqlite3.connect("../../../domoticz.db")
     cur = con.cursor()
 
     googleNextRow = googleNextRow + 2
