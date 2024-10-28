@@ -268,23 +268,31 @@ D3.DeviceRowId = 590 AND D3.Date > '{}'"
 
     print(sql_total.format(dataMaxi))
 
-    con = sqlite3.connect("../../../domoticz.db")
-    cur = con.cursor()
+    sqliteConnection = sqlite3.connect("../../../domoticz.db")
+    cur = sqliteConnection.cursor()
 
     googleNextRow = googleNextRow + 2
 
-    for rowSQL in cur.execute(sql_total.format(dataMaxi)):
-        print(rowSQL)
+    try:
+        for rowSQL in cur.execute(sql_total.format(dataMaxi)):
+            print(rowSQL)
 
-        row = [rowSQL[0],rowSQL[1],rowSQL[2],rowSQL[3],rowSQL[4],rowSQL[5],rowSQL[6],rowSQL[7],rowSQL[8],rowSQL[9],rowSQL[10],rowSQL[11],rowSQL[12],rowSQL[13],rowSQL[14],rowSQL[15],rowSQL[16],rowSQL[17],rowSQL[18],rowSQL[19],rowSQL[20],rowSQL[21],rowSQL[22],rowSQL[23],rowSQL[24],rowSQL[25]]
-        try:
-            notes_ConfigurationSheet.insert_row(row, googleNextRow, 'USER_ENTERED')
-        except gspread.exceptions.APIError as argh:
-            print("Maximum d'ajout pour Google sheet - relancer dans 2 min")
-            print("api error : ", argh, file=sys.stderr)
-            inventaireNote = "Ajoute Kwh max" + "\n__api.error.max__"
-            erreurApiMax = True
-            break
+            row = [rowSQL[0],rowSQL[1],rowSQL[2],rowSQL[3],rowSQL[4],rowSQL[5],rowSQL[6],rowSQL[7],rowSQL[8],rowSQL[9],rowSQL[10],rowSQL[11],rowSQL[12],rowSQL[13],rowSQL[14],rowSQL[15],rowSQL[16],rowSQL[17],rowSQL[18],rowSQL[19],rowSQL[20],rowSQL[21],rowSQL[22],rowSQL[23],rowSQL[24],rowSQL[25]]
+            try:
+                notes_ConfigurationSheet.insert_row(row, googleNextRow, 'USER_ENTERED')
+            except gspread.exceptions.APIError as argh:
+                print("Maximum d'ajout pour Google sheet - relancer dans 2 min")
+                print("api error : ", argh, file=sys.stderr)
+                inventaireNote = "Ajoute Kwh max" + "\n__api.error.max__"
+                erreurApiMax = True
+                break
+    except sqlite3.Error as error:
+        print("Error while creating a sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("sqlite connection is closed")
+    cur.close()
 
     print("**** fin du monde")
 
