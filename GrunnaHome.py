@@ -268,7 +268,14 @@ D3.DeviceRowId = 590 AND D3.Date > '{}'"
 
     print(sql_total.format(dataMaxi))
 
-    sqliteConnection = sqlite3.connect("../../../domoticz.db")
+    db_file = "../../../domoticz.db"
+    print("db file exists [" + db_file + "]? " + str(os.path.isfile(db_file)))
+
+    if (not os.path.isfile(db_file)):
+        print("***** arg je meure")
+        exit(-1)
+
+    sqliteConnection = sqlite3.connect(db_file)
     cur = sqliteConnection.cursor()
 
     googleNextRow = googleNextRow + 2
