@@ -268,7 +268,7 @@ D3.DeviceRowId = 590 AND D3.Date > '{}'"
 
     print(sql_total.format(dataMaxi))
 
-    db_file = "../../../domoticz.db"
+    db_file = "/home/pi/domoticz/domoticz.db"
     print("db file exists [" + db_file + "]? " + str(os.path.isfile(db_file)))
 
     if (not os.path.isfile(db_file)):
